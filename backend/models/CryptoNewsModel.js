@@ -10,7 +10,9 @@ const CryptoNewsSchema = new mongoose.Schema(
     sourceWebsiteName: { type: String, required: true },
     newsUrl: {type: String, required: true},
     /* content: { type: Object, required: true }, */
-    timestamp: { type: Date, required: true }
+    timestamp: { type: Date, required: true },
+    excerpt: {type: String},
+    keywords: {type: Array}
   },
   {
     timestamps: true
