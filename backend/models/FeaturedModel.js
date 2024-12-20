@@ -9,6 +9,7 @@ const featuredSchema = new mongoose.Schema(
     bannerImageUrl: {type: String, required: true },
     bannerHeading: { type: String, required: true },
     headingDescription: {  type: String },
+    keywords: {type: Array},
     link: { type: String},
     postDate: {type: Date},
   },

@@ -14,6 +14,8 @@ const airdropSchema = new mongoose.Schema(
     slug: { type: String, unique: true },
     //projectName: { type: String, required: true},
     description: { type: String },
+    keywords: { type: Array},
+    excerpt: {type: String},
     referralLink: { type: String },
     rewardPool: { type: String },
     rewardPercentFromSupply: { type: String },

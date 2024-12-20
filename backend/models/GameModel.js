@@ -10,6 +10,7 @@ const GameSchema = new mongoose.Schema(
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true},
     description: { type: String, required: true },
+    keywords: { type: Array},
     token: { type: String },
     token_api_id: {type: String },
     platform: { type: Array, required: true },

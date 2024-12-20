@@ -7,12 +7,14 @@ const AcademyPostSchema = new mongoose.Schema(
     postHeading: { type: String, required: true },
     imageLink: { type: String },
     slug: { type: String, unique: true },
+    excerpt: {type: String},
     category: { type: String },
     track: { type: String},
     author: { type: String },
     authorSocials: { type: Array },
     content: { type: Object, required: true },
     tags: { type: Array },
+    keywords: {type: Array},
     timestamp: { type: Date  }
   },
   {

@@ -15,7 +15,8 @@ const rewardTaskSchema = new mongoose.Schema(
      free: { type: String, required: true },
      active: { type: String, required: true },
      website: { type: String, required: true},
-     api_id: { type: String }
+     api_id: { type: String },
+     keywords: {type: Array}
   },
   {
     timestamps: true
