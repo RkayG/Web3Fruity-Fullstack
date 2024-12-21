@@ -4,6 +4,10 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
+// Handle favicon requests
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/favicon.png', (req, res) => res.status(204).end());
+
 //import internal routes
 const featuredAirdropRouter = require('./routes/FeaturedAirdropRoutes');
 const airdropRouter = require('./routes/AirdropRoutes');
