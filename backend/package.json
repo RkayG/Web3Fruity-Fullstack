@@ -2,11 +2,11 @@
   "name": "web3fruity_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "node index.s",
-    "dev": "nodemon index.js"
+    "serve": "node server.s",
+    "dev": "nodemon server.js"
   },
   "author": "Rufus Gladness",
   "license": "ISC",
