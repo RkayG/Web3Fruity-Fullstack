@@ -11,6 +11,7 @@
   "author": "Rufus Gladness",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "contentful": "^10.10.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

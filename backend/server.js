@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 require('dotenv').config();
+const axios = require('axios');
 
-// Handle favicon requests
-app.get('/favicon.ico', (req, res) => res.status(204).end());
-app.get('/favicon.png', (req, res) => res.status(204).end());
+const url = process.env.SERVER_URL;
+console.log(url);
+const interval = 30000; // Interval in milliseconds (30 seconds)
+app.use(cors());
 
 //import internal routes
 const featuredAirdropRouter = require('./routes/FeaturedAirdropRoutes');
@@ -21,7 +23,6 @@ const searchRouter = require('./routes/searchRoute');
 
 // Use middleware if needed
 app.use(express.json());
-app.use(cors());
 
 // Mount router(s)
 app.use('/api', featuredAirdropRouter); // Mount router with a base path
@@ -46,3 +47,21 @@ mongoose.connect(process.env.MONGODB_URI)
   }).catch((error) => {
     console.log(error);
 });
+
+// Ping server to keep it awake
+function reloadWebsite() {
+  if (!url) {
+    console.error('SERVER_URL is not defined');
+    return;
+  }
+  
+  axios.get(url, { timeout: 5000 }) // Add timeout
+    .then(response => {
+      console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+    })
+    .catch(error => {
+      console.error(`Error reloading at ${new Date().toISOString()}:`, 
+        error.response ? `Status: ${error.response.status}` : error.message);
+    });
+}
+setInterval(reloadWebsite, interval);
