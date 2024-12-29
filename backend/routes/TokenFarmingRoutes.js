@@ -9,6 +9,7 @@ const { cache, cacheMiddleware } = require('../middleware/cacheMiddleware');
 router.post('/sync-contentful-farm-tokens', async (req, res) => {
   try {
     await syncTokenFarmsWithDatabase();
+    cache.flushAll();  // Clear cache when syncing to ensure fresh data
     res.status(200).json({ message: 'Farming tokens synced successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -9,6 +9,7 @@ const { cache, cacheMiddleware } = require('../middleware/cacheMiddleware');
 router.post('/sync-contentful-reward-tasks', async (req, res) => {
   try {
     await syncRewardTasksWithDatabase();
+    cache.flushAll();  // Clear cache when syncing to ensure fresh data
     res.status(201).json({message: 'Reward Tasks synced successfully'});
   } catch (error) {
     res.status(400).json({ message: error.message });

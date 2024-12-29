@@ -11,6 +11,7 @@ const { cache, cacheMiddleware } = require('../middleware/cacheMiddleware');
 router.post('/sync-contentful-games', async (req, res) => {
   try {
     await syncGamesWithDatabase();
+    cache.flushAll();  // Clear cache when syncing to ensure fresh data
     res.status(201).json({ message: 'Games synced successfully' });
   } catch (error) {
     res.status(400).json({ message: error.message });
