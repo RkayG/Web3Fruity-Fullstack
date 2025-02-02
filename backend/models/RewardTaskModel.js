@@ -9,7 +9,9 @@ const mongoose = require('mongoose');
 const rewardTaskSchema = new mongoose.Schema(
   {
      logo: { type: String, required: true },
+
      title: { type: String, required: true },
+     slug: { type: String, unique: true },
      activities: { type: String, required: true },
      token: { type: String },
      free: { type: String, required: true },
@@ -23,6 +25,28 @@ const rewardTaskSchema = new mongoose.Schema(
   }
 );
 
+// Middleware to generate slug from rewardTask title
+rewardTaskSchema.pre('save', async function(next) {
+  if (this.isModified('title')) {
+    let slug = slugify(this.title, { lower: true, strict: true });
+    
+    // Check for existing slugs
+    let slugExists = await mongoose.models.rewardTask.findOne({ slug: slug });
+    let counter = 1;
+
+    // Append a unique identifier if the slug already exists
+    while (slugExists) {
+      slug = `${slug}-${counter}`;
+      slugExists = await mongoose.models.rewardTask.findOne({ slug: slug });
+      counter++;
+    }
+    
+    this.slug = slug;
+  }
+  next();
+});
+
+rewardTaskSchema.index({ slug: 1 });
 const RewardTask = mongoose.model('RewardTask', rewardTaskSchema);
 
 module.exports = RewardTask;

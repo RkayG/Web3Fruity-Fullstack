@@ -25,7 +25,7 @@ router.get('/reward-tasks', cacheMiddleware(2592000), async (req, res) => {
       limit = 12; // Set a default limit if 'limit' query parameter is not provided or invalid
     }
 
-    const rewardTasks = await RewardTask.find().sort({ updatedAt: -1 }).limit(limit); // Use the limit in the MongoDB query
+    const rewardTasks = await RewardTask.find().sort({ createdAt: -1 }).limit(limit); // Use the limit in the MongoDB query
     console.log('reward tasks fetched');
     res.json(rewardTasks);
   } catch (error) {
@@ -51,6 +51,23 @@ router.get('/reward-tasks/:id', cacheMiddleware(2592000), async (req, res) => {
 const clearCache = (key) => {
   cache.del(key);
 };
+
+// Route to retrieve a specific Reward Task by slug
+router.get('/reward-tasks/:slug', cacheMiddleware(604800), async (req, res) => {
+  const { slug } = req.params;
+  try {
+    const rewardTask = await RewardTask.findOne({ slug: slug });
+    if (rewardTask) {
+      res.json(rewardTask);
+    } else {
+      res.status(404).send('Reward-Task platform not found');
+    }
+  } catch (error) {
+    console.error('Error fetching reward-task platform slug:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 
 // Route to create a new reward for task
 router.post('/reward-tasks', async (req, res) => {
