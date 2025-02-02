@@ -29,7 +29,19 @@ router.post('/airdrops', async (req, res) => {
   }
 });
 
-// Route to retrieve all airdrops
+// route to return all airdrops in database to be used in sitemap
+router.get('/all-airdrops', async (req, res) => {
+  try {
+    const airdrops = await Airdrop.find().sort({ createdAt: -1 })
+  
+    res.json(airdrops);
+    console.log('All airdrops fetched');
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Route to retrieve airdrops in batch of 12
 router.get('/airdrops', async (req, res) => {
   try {
     let limit = parseInt(req.query.limit) || 12;
