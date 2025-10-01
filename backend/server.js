@@ -24,6 +24,27 @@ const searchRouter = require('./routes/searchRoute');
 // Use middleware if needed
 app.use(express.json());
 
+ const allowedOrigins = [
+    process.env.FRONTEND_URL,
+  ].filter(Boolean);
+
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, curl requests, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`🚫 CORS blocked origin: ${origin}`);
+        callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    exposedHeaders: ["x-total-count", "x-ratelimit-remaining", "x-response-time"],
+    maxAge: 86400, // 24 hours
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  }));
+
 // Mount router(s)
 app.use('/api', featuredAirdropRouter); // Mount router with a base path
 app.use('/', airdropRouter);
